@@ -1,0 +1,22 @@
+function exportarXLS() {
+    // Dados para o XLS
+    const data = [
+        ["Nome", "{{ nome }}"],
+        ["Email", "{{ email }}"],
+        ["CPF", "{{ CPF }}"],
+        ["Data da Compra", "{{ data_compra }}"],
+        ["Local de Partida", "{{ partida }}"],
+        ["Destino", "{{ destino }}"],
+        ["Valor", "R$ {{ valor }}"]
+    ];
+
+    // Cria uma nova planilha
+    const ws = XLSX.utils.aoa_to_sheet(data);
+
+    // Cria um novo livro de trabalho (workbook)
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, "Comprovante");
+
+    // Gera o arquivo XLS
+    XLSX.writeFile(wb, "comprovante.xls");
+}

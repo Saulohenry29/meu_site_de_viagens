@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Seleção de Destinos</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <h2>Escolha seu Destino</h2>
+    <form action="/destinos" method="POST">
+        <label for="partida">Local de Partida:</label>
+        <select name="partida" id="partida" required>
+            <option value="Cuiabá">Cuiabá</option>
+            <option value="São Paulo">São Paulo</option>
+            <option value="Rio de Janeiro">Rio de Janeiro</option>
+            <option value="Presidente Prudente">Presidente Prudente</option>
+            <option value="Sorocaba">Sorocaba</option>
+            <option value="Brasilia">Brasilia</option>
+        </select>
+
+        <label for="destino">Destino:</label>
+        <select name="destino" id="destino" required>
+            {% for destino in destinos %}
+                <option value="{{ destino['destino'] }}" data-valor="{{ destino['valor'] }}">
+                    {{ destino['destino'] }} - R$ {{ destino['valor'] }}
+                </option>
+            {% endfor %}
+        </select>
+
+        <input type="hidden" name="valor" id="valor">
+        
+        <button type="submit">Comprar</button>
+    </form>
+
+    <div class="gallery">
+        <img src="{{ url_for('static', filename='img/destino1.jpg') }}" alt="Destino 1">
+        <img src="{{ url_for('static', filename='img/destino2.jpg') }}" alt="Destino 2">
+        <img src="{{ url_for('static', filename='img/destino3.jpg') }}" alt="Destino 3">
+    </div>
+
+    <script>
+        document.getElementById('destino').addEventListener('change', function() {
+            const valor = this.options[this.selectedIndex].getAttribute('data-valor');
+            document.getElementById('valor').value = valor;
+        });
+    </script>
+</body>
+</html>

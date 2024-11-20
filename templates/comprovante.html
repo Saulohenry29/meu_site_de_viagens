@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Comprovante de Venda</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.0/xlsx.full.min.js"></script>
+</head>
+<body>
+    <h2>Comprovante de Compra</h2>
+
+    <p><strong>Nome:</strong> {{ nome }}</p>
+    <p><strong>Email:</strong> {{ email }}</p>
+    <p><strong>CPF:</strong> {{ CPF }}</p>
+    <p><strong>Data da Compra:</strong> {{ data_compra }}</p>
+    <p><strong>Local de Partida:</strong> {{ partida }}</p>
+    <p><strong>Destino:</strong> {{ destino }}</p>
+    <p><strong>Valor:</strong> R$ {{ valor }}</p>
+    
+    <button onclick="window.print()">Imprimir Comprovante</button><br>
+    <button onclick="exportarXLS()">Exportar para XLS</button>
+    <br><br>
+    <a href="{{ url_for('destinos') }}" class="button">Voltar para Destinos</a>
+
+    <script>
+        function exportarXLS() {
+            // Dados para o XLS
+            const data = [
+                ["Nome", "{{ nome }}"],
+                ["Email", "{{ email }}"],
+                ["CPF", "{{ CPF }}"],
+                ["Data da Compra", "{{ data_compra }}"],
+                ["Local de Partida", "{{ partida }}"],
+                ["Destino", "{{ destino }}"],
+                ["Valor", "R$ {{ valor }}"]
+            ];
+
+            // Cria uma nova planilha
+            const ws = XLSX.utils.aoa_to_sheet(data);
+
+            // Cria um novo livro de trabalho (workbook)
+            const wb = XLSX.utils.book_new();
+            XLSX.utils.book_append_sheet(wb, ws, "Comprovante");
+
+            // Gera o arquivo XLS
+            XLSX.writeFile(wb, "comprovante.xls");
+        }
+    </script>
+</body>
+</html>
